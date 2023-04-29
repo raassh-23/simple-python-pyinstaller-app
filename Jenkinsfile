@@ -1,10 +1,9 @@
 node {
     def workspace = pwd()
-    echo "Workspace: ${workspace}"
+
     stage('Build') {
         docker.image('python:2-alpine').inside("-v ${workspace}:/app") {
-            sh 'cd /app && pwd && ls -la'
-            sh 'cd /app && python -m py_compile app/sources/add2vals.py sources/calc.py'
+            sh 'cd /app && python -m py_compile sources/add2vals.py sources/calc.py'
         }
     }
     stage('Test') {
