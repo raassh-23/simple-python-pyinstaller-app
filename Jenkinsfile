@@ -8,13 +8,14 @@ node {
     }
 
     stage('Test') {
-        try {
-            docker.image('qnib/pytest').inside("-v ${workspace}:/app") {
+        docker.image('qnib/pytest').inside("-v ${workspace}:/app") {
+            try {
                 sh 'cd /app && py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
+            } catch (Exception e) {
+                echo "Exception: ${e}"
+            } finally {
+                junit 'test-reports/results.xml'
             }
-        } finally {
-            sh 'docker cp $(docker ps -q -f ancestor=qnib/pytest):/app/test-reports/results.xml results.xml'
-            junit 'results.xml'
         }
     }
 }
