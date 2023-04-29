@@ -6,14 +6,14 @@ node {
             sh 'cd /app && python -m py_compile sources/add2vals.py sources/calc.py'
         }
     }
+
     stage('Test') {
-        docker.image('qnib/pytest').inside("-v ${workspace}:/app") {
-            sh 'cd /app && py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
-        }
-        post {
-            always {
-                junit '/app/test-reports/results.xml'
+        try {
+            docker.image('qnib/pytest').inside("-v ${workspace}:/app") {
+                sh 'cd /app && py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
             }
+        } finally {
+            junit '/app/test-reports/results.xml'
         }
     }
 }
