@@ -8,12 +8,12 @@ node {
     }
 
     stage('Test') {
-        try {
-            docker.image('qnib/pytest').inside("-v ${workspace}:/app") {
+        docker.image('qnib/pytest').inside("-v ${workspace}:/app") {
+            try {
                 sh 'cd /app && py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
+            } finally {
+                junit '/app/test-reports/results.xml'
             }
-        } finally {
-            junit '/app/test-reports/results.xml'
         }
     }
 }
