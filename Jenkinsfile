@@ -12,7 +12,7 @@ node {
         }
         post {
             always {
-                junit 'test-reports/results.xml'
+                junit '/app/test-reports/results.xml'
             }
         }
     }
