@@ -8,10 +8,13 @@ node {
     }
 
     stage('Test') {
-        docker.image('qnib/pytest').inside("-v ${workspace}:/app") {
-            sh 'cd /app && py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
-
-            junit '/app/test-reports/results.xml'
+        try {
+            docker.image('qnib/pytest').inside("-v ${workspace}:/app") {
+                sh 'cd /app && py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
+            }
+        } finally {
+            sh "docker cp $(docker ps -q -f ancestor=qnib/pytest):/app/test-reports ${workspace}/"
+            junit 'test-reports/results.xml'
         }
     }
 }
