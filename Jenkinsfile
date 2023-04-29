@@ -1,15 +1,15 @@
 node {
     def workspace = pwd()
-    def mountArgs = "-v ${workspace}:${workspace}"
+    echo "Workspace: ${workspace}"
     stage('Build') {
-        docker.image('python:2-alpine').inside(mountArgs) {
+        docker.image('python:2-alpine').inside("-v ${workspace}:${workspace}") {
             sh 'pwd'
             sh 'ls -la'
             sh 'python -m py_compile sources/add2vals.py sources/calc.py'
         }
     }
     stage('Test') {
-        docker.image('qnib/pytest').inside(mountArgs) {
+        docker.image('qnib/pytest').inside("-v ${workspace}:${workspace}") {
             sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
         }
         post {
