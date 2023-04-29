@@ -13,8 +13,8 @@ node {
                 sh 'cd /app && py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
             }
         } finally {
-            sh "docker cp $(docker ps -q -f ancestor=qnib/pytest):/app/test-reports ${workspace}/"
-            junit 'test-reports/results.xml'
+            sh 'docker cp $(docker ps -q -f ancestor=qnib/pytest):/app/test-reports/results.xml results.xml'
+            junit 'results.xml'
         }
     }
 }
