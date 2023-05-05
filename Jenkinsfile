@@ -28,9 +28,11 @@ node {
 
         archiveArtifacts "dist/add2vals"
 
-        sleep(time: 1, unit: 'MINUTES')
+        // sleep(time: 1, unit: 'MINUTES')
 
         echo 'Deleting app'
-        sh 'rm -rf build dist add2vals.spec'
+        sh "docker run --rm -v ${workspace}:/src cdrx/pyinstaller-linux:python2 'rm -rf build dist add2vals.spec'"
+
+        sh 'ls'
     }
 }
