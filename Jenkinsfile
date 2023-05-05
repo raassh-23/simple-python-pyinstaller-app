@@ -24,15 +24,13 @@ node {
     }
 
     stage('Deploy') {
-        docker.image('cdrx/pyinstaller-linux:python2').inside("-v ${workspace}:/app --entrypoint=''") {
-            sh 'pip list'
+        docker.image('python:2-alpine').inside("-v ${workspace}:/app") {
+            // install pip
+            sh 'apk add --no-cache python2-dev py-setuptools gcc musl-dev linux-headers && easy_install pip'
+            sh 'pip install pyinstaller'
             sh 'cd /app && pyinstaller --onefile sources/add2vals.py'
-            echo "test1"
-            sh 'ls -la app/'
-            echo "test2"
-            sh 'ls -la dist/'
-            echo "test3"
-            sh 'ls -la app/dist/'
+
+            sh 'ls -l app'
         }
 
         // sleep(time: 1, unit: 'MINUTES')
