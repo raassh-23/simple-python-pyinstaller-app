@@ -25,7 +25,9 @@ node {
 
     stage('Deploy') {
         docker.image('cdrx/pyinstaller-linux:python2').inside("--entrypoint=''") {
+            sh 'pyinstaller --onefile sources/add2vals.py'
             sh 'ls'
+            sh 'ls dist'
         }
 
         // sleep(time: 1, unit: 'MINUTES')
