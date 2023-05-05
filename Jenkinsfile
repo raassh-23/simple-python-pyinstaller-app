@@ -24,8 +24,17 @@ node {
     }
 
     stage('Deploy') {
-        echo 'Deploying...'
-        sleep(time: 1, unit: 'MINUTES')
-        echo 'Finished Deployed!'
+        docker.image('cdrx/pyinstaller-linux:python2').inside("-v ${workspace}:/app") {
+            sh 'cd /app && pyinstaller --onefile sources/add2vals.py'
+            echo "test1"
+            sh 'ls -la app/'
+            echo "test2"
+            sh 'ls -la dist/'
+            echo "test3"
+            sh 'ls -la app/dist/'
+        }
+
+        // sleep(time: 1, unit: 'MINUTES')
+        // echo 'Finished Deployed!'
     }
 }
