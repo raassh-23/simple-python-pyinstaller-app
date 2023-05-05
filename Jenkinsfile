@@ -18,4 +18,14 @@ node {
             }
         }
     }
+
+    stage('Manual Approval') {
+        input message: 'Lanjutkan ke tahap Deploy?'
+    }
+
+    stage('Deploy') {
+        echo 'Deploying...'
+        sleep 1m
+        echo 'Finished Deployed!'
+    }
 }
