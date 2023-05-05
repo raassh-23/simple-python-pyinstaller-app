@@ -24,15 +24,15 @@ node {
     }
 
     stage('Deploy') {
-        sh "docker run --rm -v ${workspace}:/src cdrx/pyinstaller-linux:python2 'pyinstaller --onefile sources/add2vals.py'"
+        def dockerRun = "docker run --rm -v ${workspace}:/src cdrx/pyinstaller-linux:python2"
+
+        sh "${dockerRun} 'pyinstaller --onefile sources/add2vals.py'"
 
         archiveArtifacts "dist/add2vals"
 
-        // sleep(time: 1, unit: 'MINUTES')
+        sleep(time: 1, unit: 'MINUTES')
 
         echo 'Deleting app'
-        sh "docker run --rm -v ${workspace}:/src cdrx/pyinstaller-linux:python2 'rm -rf build dist add2vals.spec'"
-
-        sh 'ls'
+        sh "${dockerRun} 'rm -rf build dist add2vals.spec'"
     }
 }
