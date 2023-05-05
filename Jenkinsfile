@@ -24,7 +24,7 @@ node {
     }
 
     stage('Deploy') {
-        docker.image('cdrx/pyinstaller-linux:python2').inside("-v ${workspace}:/app") {
+        docker.image('cdrx/pyinstaller-linux:python2').inside("-v ${workspace}:/app --entrypoint=''") {
             sh 'cd /app && pyinstaller --onefile sources/add2vals.py'
             echo "test1"
             sh 'ls -la app/'
