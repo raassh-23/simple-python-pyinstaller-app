@@ -25,7 +25,7 @@ node {
 
     stage('Deploy') {
         echo 'Deploying...'
-        sleep 1m
+        sleep(time: 1, unit: 'MINUTES')
         echo 'Finished Deployed!'
     }
 }
