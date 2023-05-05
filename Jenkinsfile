@@ -24,12 +24,9 @@ node {
     }
 
     stage('Deploy') {
-        docker.image('cdrx/pyinstaller-linux:python2').inside("--entrypoint='/entrypoint.sh'") {
-            sh "which pyinstaller && env"
-            sh 'pyinstaller --onefile sources/add2vals.py'
-            sh 'ls'
-            sh 'ls dist'
-        }
+        sh "docker run --rm -v ${workspace}:/src cdrx/pyinstaller-linux:python2 'pyinstaller --onefile sources/add2vals.py'"
+        sh 'ls'
+        sh 'ls dist'
 
         // sleep(time: 1, unit: 'MINUTES')
         // echo 'Finished Deployed!'
