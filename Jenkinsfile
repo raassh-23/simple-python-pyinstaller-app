@@ -24,7 +24,7 @@ node {
     }
 
     stage('Deploy') {
-        docker.image('cdrx/pyinstaller-linux:python2').inside("--entrypoint=''") {
+        docker.image('cdrx/pyinstaller-linux:python2').inside("--entrypoint='/entrypoint.sh'") {
             sh 'ls'
             sh 'pyinstaller --onefile sources/add2vals.py'
             sh 'ls'
