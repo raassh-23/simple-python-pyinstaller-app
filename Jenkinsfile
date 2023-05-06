@@ -29,12 +29,13 @@ node {
         sh "${dockerRun} 'pyinstaller --onefile sources/add2vals.py'"
 
         archiveArtifacts "dist/add2vals"
-        
+
         sh 'git remote -v | grep -w heroku || git remote add heroku https://git.heroku.com/python-cicd-pipeline-raassh-23.git'
-        // sh 'git push heroku master'
         sh 'git show-ref'
         sh 'git remote -v'
-        sh 'git logs'
+        sh 'git log'
+        sh 'git push heroku main'
+
 
         sleep(time: 1, unit: 'MINUTES')
 
