@@ -33,8 +33,12 @@ node {
         sh 'git remote -v | grep -w heroku || git remote add heroku https://git.heroku.com/python-cicd-pipeline-raassh-23.git'
         sh 'git show-ref'
         sh 'git remote -v'
-        sh 'git log'
-        sh 'git push heroku master:refs/remotes/origin/master'
+        sh 'git config user.email "muh.nur.abdurrauf@gmail.com"'
+        sh 'git config user.name "raassh23"'
+        sh 'echo $(date +%Y-%m-%d %H-%M-%S) > deploy-timestamp'
+        sh 'git add .'
+        sh 'git commit -m "Deploy built artifact"'
+        sh 'git push -f heroku master:refs/remotes/origin/master'
 
 
         sleep(time: 1, unit: 'MINUTES')
