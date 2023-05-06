@@ -32,7 +32,7 @@ node {
 
         withCredentials([usernamePassword(credentialsId: 'heroku', usernameVariable: 'USR', passwordVariable: 'PSW')]) {
             sh 'git remote -v | grep heroku && git remote rm heroku'
-            sh "git remote add heroku https://${USR}:${PSW}@git.heroku.com/python-cicd-pipeline-raassh-23.git"
+            sh 'git remote add heroku https://$USR:$PSW@git.heroku.com/python-cicd-pipeline-raassh-23.git'
             sh 'git remote -v'
             sh "git config user.email '${USR}'"
             sh "git config user.name '${USR}'"
