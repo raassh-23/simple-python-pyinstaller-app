@@ -38,6 +38,9 @@ node {
         sh 'echo $(date +%Y-%m-%d %H-%M-%S) > deploy-timestamp'
         sh 'git add .'
         sh 'git commit -m "Deploy built artifact"'
+        sh 'git branch tmp'
+        sh 'git checkout master'
+        sh 'git merge tmp'
         sh 'git push -f heroku master:refs/remotes/origin/master'
 
 
