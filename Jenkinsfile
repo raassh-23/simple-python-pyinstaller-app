@@ -24,18 +24,17 @@ node {
     }
 
     stage('Deploy') {
-        // def dockerRun = "docker run --rm -v ${workspace}:/src cdrx/pyinstaller-linux:python2"
+        def dockerRun = "docker run --rm -v ${workspace}:/src cdrx/pyinstaller-linux:python2"
 
-        // sh "${dockerRun} 'pyinstaller --onefile sources/add2vals.py'"
+        sh "${dockerRun} 'pyinstaller --onefile sources/add2vals.py'"
 
-        // archiveArtifacts "dist/add2vals"
+        archiveArtifacts "dist/add2vals"
 
         withCredentials([usernamePassword(credentialsId: 'heroku', usernameVariable: 'USR', passwordVariable: 'PSW')]) {
             sh 'git remote -v | grep heroku && git remote rm heroku'
             sh 'git remote add heroku https://$USR:$PSW@git.heroku.com/python-cicd-pipeline-raassh-23.git'
-            sh 'git remote -v'
             sh "git config user.email '${USR}'"
-            sh "git config user.name '${USR}'"
+            sh "git config user.name 'Muhammad Abdurrauf'"
             sh 'echo $(date +%Y-%m-%d %H-%M-%S) > deploy-timestamp'
             sh 'git add .'
             sh 'git commit -m "Deploy built artifact"'
@@ -46,11 +45,10 @@ node {
             sh 'git push -f heroku master'
         }
 
+        sleep(time: 1, unit: 'MINUTES')
 
-        // sleep(time: 1, unit: 'MINUTES')
-
-        // echo 'Deleting app'
-        // sh "${dockerRun} 'rm -rf build dist add2vals.spec'"
+        echo 'Deleting app'
+        sh "${dockerRun} 'rm -rf build dist add2vals.spec'"
     }
 }
 
