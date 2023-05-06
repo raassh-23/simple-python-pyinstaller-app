@@ -34,7 +34,7 @@ node {
         sh 'git show-ref'
         sh 'git remote -v'
         sh 'git log'
-        sh 'git push heroku main'
+        sh 'git push heroku master:refs/heads/master'
 
 
         sleep(time: 1, unit: 'MINUTES')
