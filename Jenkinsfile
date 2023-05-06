@@ -32,7 +32,10 @@ node {
 
         sh 'git remote add heroku https://git.heroku.com/python-cicd-pipeline-raassh-23.git'
 
-        sh 'git push heroku master'
+        // sh 'git push heroku master'
+        sh 'git show-ref'
+        sh 'git remote -v'
+        sh 'git logs'
 
         sleep(time: 1, unit: 'MINUTES')
 
