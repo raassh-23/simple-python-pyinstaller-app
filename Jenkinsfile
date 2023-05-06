@@ -30,9 +30,14 @@ node {
 
         archiveArtifacts "dist/add2vals"
 
+        sh 'git remote add heroku https://git.heroku.com/python-cicd-pipeline-raassh-23.git'
+
+        sh 'git push heroku master'
+
         sleep(time: 1, unit: 'MINUTES')
 
         echo 'Deleting app'
         sh "${dockerRun} 'rm -rf build dist add2vals.spec'"
     }
 }
+
