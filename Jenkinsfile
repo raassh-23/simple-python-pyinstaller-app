@@ -24,15 +24,12 @@ node {
     }
 
     stage('Deploy') {
-        def dockerRun = "docker run --rm -v ${workspace}:/src cdrx/pyinstaller-linux:python2"
+        // def dockerRun = "docker run --rm -v ${workspace}:/src cdrx/pyinstaller-linux:python2"
 
-        sh "${dockerRun} 'pyinstaller --onefile sources/add2vals.py'"
+        // sh "${dockerRun} 'pyinstaller --onefile sources/add2vals.py'"
 
-        archiveArtifacts "dist/add2vals"
+        // archiveArtifacts "dist/add2vals"
 
-        sh 'git remote -v | grep -w heroku || git remote add heroku https://git.heroku.com/python-cicd-pipeline-raassh-23.git'
-        sh 'git show-ref'
-        sh 'git remote -v'
         sh 'git config user.email "muh.nur.abdurrauf@gmail.com"'
         sh 'git config user.name "raassh23"'
         sh 'echo $(date +%Y-%m-%d %H-%M-%S) > deploy-timestamp'
@@ -41,13 +38,13 @@ node {
         sh 'git branch tmp'
         sh 'git checkout master'
         sh 'git merge tmp'
-        sh 'git push -f heroku master:refs/remotes/origin/master'
+        sh 'git push -f git@heroku.com:python-cicd-pipeline-raassh-23.git master'
 
 
-        sleep(time: 1, unit: 'MINUTES')
+        // sleep(time: 1, unit: 'MINUTES')
 
-        echo 'Deleting app'
-        sh "${dockerRun} 'rm -rf build dist add2vals.spec'"
+        // echo 'Deleting app'
+        // sh "${dockerRun} 'rm -rf build dist add2vals.spec'"
     }
 }
 
